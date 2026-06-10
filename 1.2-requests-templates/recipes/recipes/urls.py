@@ -16,6 +16,8 @@ Including another URLconf
 
 from django.urls import path
 
+
 urlpatterns = [
     # здесь зарегистрируйте вашу view-функцию
+    path('omlet/', recipes_view, name='omlet' ),
 ]

@@ -19,12 +19,21 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+
+def recipes_view(request, recipe_name):
+
+    recipe_source = DATA.get(recipe_name)
+
+    if not recipe_source:
+        context = {'recipe': None}
+        return render(request, 'calculator/index.html', context)
+
+    servings = int(request.GET.get('servings', 1))
+
+    res_recipe = {ingredient: amount * servings for ingredient, amount in recipe_source.items()}
+
+    context = {
+        'recipe': res_recipe
+    }
+
+    return render(request, 'calculator/index.html', context)
